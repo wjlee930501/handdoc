@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Instructor {
+  id           String   @id @default(cuid())
+  name         String
+  title        String
+  profileImage String?
+  intro        String
+  createdAt    DateTime @default(now())
+  courses      Course[]
+}
+
+model Course {
+  id            String         @id @default(cuid())
+  title         String
+  description   String
+  level         String
+  date          DateTime
+  location      String
+  capacity      Int
+  visibility    Boolean        @default(true)
+  status        String         @default("open")
+  instructorId  String
+  instructor    Instructor     @relation(fields: [instructorId], references: [id])
+  registrations Registration[]
+  createdAt     DateTime       @default(now())
+}
+
+model Registration {
+  id              String   @id @default(cuid())
+  courseId        String
+  name            String
+  phone           String
+  email           String
+  hospital        String
+  position        String
+  experienceLevel String
+  memo            String?
+  status          String   @default("applied")
+  createdAt       DateTime @default(now())
+  course          Course   @relation(fields: [courseId], references: [id])
+}

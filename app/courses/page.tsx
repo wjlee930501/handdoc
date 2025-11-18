@@ -67,7 +67,7 @@ function getLevelConfig(level: string) {
   return config[level] || config.Beginner;
 }
 
-export default async function Home() {
+export default async function CoursesPage() {
   const courses = await getCourses();
 
   return (
@@ -104,7 +104,7 @@ export default async function Home() {
         </PageContainer>
       </section>
 
-            {/* Courses Section */}
+      {/* Courses Section */}
       <section className="section-padding bg-white">
         <PageContainer>
           {courses.length === 0 ? (
@@ -232,7 +232,7 @@ export default async function Home() {
                       </CardContent>
 
                       <CardFooter className="bg-secondary/30 pt-4">
-                        <Link href={`/course/${course.id}`} className="w-full">
+                        <Link href={`/courses/${course.id}`} className="w-full">
                           <Button className="btn-secondary w-full">
                             상세 정보 보기
                             <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
