@@ -40,7 +40,7 @@ export default function ApplyPage({ params }: { params: { id: string } }) {
     if (!formData.hospital.trim()) newErrors.hospital = "소속을 입력해주세요";
     if (!formData.position.trim()) newErrors.position = "직위를 입력해주세요";
     if (!formData.experienceLevel) newErrors.experienceLevel = "경험 수준을 선택해주세요";
-    if (!formData.consent1) newErrors.consent1 = "취소 및 환불 정책에 동의해주세요";
+    if (!formData.consent1) newErrors.consent1 = "환불 규정에 동의해주세요";
     if (!formData.consent2) newErrors.consent2 = "개인정보 처리방침에 동의해주세요";
 
     setErrors(newErrors);
@@ -241,26 +241,9 @@ export default function ApplyPage({ params }: { params: { id: string } }) {
                   />
                 </div>
 
-                {/* Consent Checkboxes */}
+                {/* Privacy Policy Consent */}
                 <div className="space-y-4 pt-6 border-t">
                   <div className="space-y-3">
-                    <div className="flex items-start gap-3 p-4 rounded-xl bg-muted/30 hover:bg-muted/50 transition-colors">
-                      <input
-                        type="checkbox"
-                        id="consent1"
-                        checked={formData.consent1}
-                        onChange={(e) => setFormData({ ...formData, consent1: e.target.checked })}
-                        className="mt-1 w-4 h-4 accent-primary"
-                      />
-                      <Label htmlFor="consent1" className="font-normal leading-relaxed cursor-pointer">
-                        <a href="/policy" target="_blank" className="underline font-medium hover:text-primary">
-                          취소 및 환불 정책
-                        </a>
-                        에 동의합니다 <span className="text-destructive">*</span>
-                      </Label>
-                    </div>
-                    {errors.consent1 && <p className="text-sm text-destructive pl-4">{errors.consent1}</p>}
-
                     <div className="flex items-start gap-3 p-4 rounded-xl bg-muted/30 hover:bg-muted/50 transition-colors">
                       <input
                         type="checkbox"
@@ -280,13 +263,82 @@ export default function ApplyPage({ params }: { params: { id: string } }) {
                   </div>
                 </div>
 
+                {/* Refund Policy Agreement - Prominent Red Section */}
+                <div className="mt-8 rounded-2xl border-2 border-red-500 bg-red-50 overflow-hidden">
+                  <div className="bg-red-500 px-6 py-3">
+                    <h3 className="text-white font-bold text-lg flex items-center gap-2">
+                      환불 규정 안내 (필수 확인)
+                    </h3>
+                  </div>
+                  <div className="px-6 py-5 space-y-4">
+                    <p className="text-red-800 font-semibold text-base">
+                      본 핸즈온 강의의 환불 규정을 반드시 확인하시고 동의해주세요.
+                    </p>
+                    <div className="space-y-3">
+                      <div className="flex items-start gap-3 bg-white rounded-xl p-4 border border-red-200">
+                        <span className="text-green-600 font-bold text-lg mt-0.5">1.</span>
+                        <div>
+                          <p className="font-bold text-gray-900">강의 시작 72시간 전까지 취소 시</p>
+                          <p className="text-green-700 font-semibold">전액 환불</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3 bg-white rounded-xl p-4 border border-red-200">
+                        <span className="text-orange-600 font-bold text-lg mt-0.5">2.</span>
+                        <div>
+                          <p className="font-bold text-gray-900">강의 시작 72시간 전 ~ 24시간 전 취소 시</p>
+                          <p className="text-orange-600 font-semibold">결제 금액의 50%만 환불</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3 bg-white rounded-xl p-4 border border-red-200">
+                        <span className="text-red-600 font-bold text-lg mt-0.5">3.</span>
+                        <div>
+                          <p className="font-bold text-gray-900">강의 시작 24시간 이내 취소 시</p>
+                          <p className="text-red-600 font-bold">환불 불가</p>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-red-700 text-sm leading-relaxed">
+                      * 환불 기준 시점은 강의 시작 시각 기준입니다.<br />
+                      * 환불 요청은 이메일로 접수해주세요.<br />
+                      * 상세 약관은{" "}
+                      <a href="/policy" target="_blank" className="underline font-bold hover:text-red-900">
+                        이용약관 페이지
+                      </a>
+                      에서 확인하실 수 있습니다.
+                    </p>
+                    <div className="border-t border-red-200 pt-4">
+                      <div className="flex items-center gap-3 p-3 rounded-xl bg-red-100 hover:bg-red-200 transition-colors">
+                        <input
+                          type="checkbox"
+                          id="consent1"
+                          checked={formData.consent1}
+                          onChange={(e) => setFormData({ ...formData, consent1: e.target.checked })}
+                          className="w-5 h-5 accent-red-600 cursor-pointer"
+                        />
+                        <Label htmlFor="consent1" className="font-bold text-red-800 text-base cursor-pointer leading-relaxed">
+                          위 환불 규정을 확인하였으며, 이에 동의합니다. <span className="text-red-600">*</span>
+                        </Label>
+                      </div>
+                      {errors.consent1 && <p className="text-sm text-red-600 font-semibold pl-4 mt-2">{errors.consent1}</p>}
+                    </div>
+                  </div>
+                </div>
+
                 {/* Submit Button */}
                 <Button
                   type="submit"
-                  className="w-full btn-primary rounded-xl py-6 text-base mt-8"
-                  disabled={isSubmitting}
+                  className={`w-full rounded-xl py-6 text-base mt-8 transition-all ${
+                    formData.consent1
+                      ? "btn-primary"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed hover:bg-gray-300"
+                  }`}
+                  disabled={isSubmitting || !formData.consent1}
                 >
-                  {isSubmitting ? "제출 중..." : "신청하기 →"}
+                  {isSubmitting
+                    ? "결제 진행 중..."
+                    : formData.consent1
+                      ? "결제하기"
+                      : "환불 규정에 동의해주세요"}
                 </Button>
               </CardContent>
             </Card>
