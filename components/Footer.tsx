@@ -41,6 +41,11 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li>
                 <Link href="/policy" className="text-muted-foreground hover:text-primary transition-colors">
+                  이용약관 / 환불 규정
+                </Link>
+              </li>
+              <li>
+                <Link href="/policy" className="text-muted-foreground hover:text-primary transition-colors">
                   정책 안내
                 </Link>
               </li>
@@ -50,6 +55,22 @@ export default function Footer() {
                 </p>
               </li>
             </ul>
+          </div>
+        </div>
+
+        {/* Refund policy notice */}
+        <div className="border-t border-border/40 py-4">
+          <div className="text-center space-y-1">
+            <p className="text-xs font-semibold text-red-600">
+              [환불 규정] 강의 시작 72시간 전: 전액 환불 | 72시간~24시간 전: 50% 환불 | 24시간 이내: 환불 불가
+            </p>
+            <p className="text-xs text-muted-foreground">
+              자세한 내용은{" "}
+              <Link href="/policy" className="underline hover:text-primary font-medium">
+                이용약관 / 환불 규정
+              </Link>
+              을 확인해주세요.
+            </p>
           </div>
         </div>
 
